@@ -1,3 +1,11 @@
+## [0.16.2] (2025-08-04)
+
+### Features
+* Moving the package to a subfolder for easier packaging without the documentation etc. in Packages.
+
+### Bug Fixes
+* Fixing reimport when editing a selected prefab with importSettingsList.ShowImportProgressBar as True
+
 ## [0.16.1](https://github.com/favoyang/unity-addressable-importer/compare/v0.16.0...v0.16.1) (2023-02-08)
 
 
