@@ -39,3 +39,9 @@ sysinfo.txt
 # npm
 node_modules
 package-lock.json
+
+# OS Files we don't want to store
+.DS_Store
+Thumbs.db
+desktop.ini
+
