@@ -32,6 +32,13 @@ public enum LabelWriteMode
     Replace
 }
 
+public enum FolderIncludeMode
+{
+    ExcludeFolders,
+    IncludeFolders,
+    FoldersOnly
+}
+
 public enum GroupTemplateApplicationMode
 {
     ApplyOnGroupCreationOnly,
@@ -57,6 +64,12 @@ public class AddressableImportRule
     /// </summary>
     [Tooltip("The path parsing method.")]
     public AddressableImportRuleMatchType matchType;
+    
+    /// <summary>
+    /// Whether we are addressing by asset or folder
+    /// </summary>
+    [Tooltip("The path parsing method.")]
+    public FolderIncludeMode allowFolders = FolderIncludeMode.ExcludeFolders;
 
     /// <summary>
     /// The group the asset will be added.
@@ -140,6 +153,14 @@ public class AddressableImportRule
         path = path.Trim();
         if (string.IsNullOrEmpty(path))
             return false;
+        
+        bool isFolder = System.IO.Directory.Exists(assetPath);
+        if (isFolder && allowFolders == FolderIncludeMode.ExcludeFolders ||
+            !isFolder && allowFolders == FolderIncludeMode.FoldersOnly)
+        {
+            return false;
+        }
+            
         if (matchType == AddressableImportRuleMatchType.Wildcard)
         {
             if (path.Contains("*") || path.Contains("?"))
