@@ -39,7 +39,7 @@ Open *Packages/manifest.json* with your favorite text editor. Add the following 
 ```json
     {
         "dependencies": {
-            "com.littlebigfun.addressable-importer": "https://github.com/favoyang/unity-addressable-importer.git"
+            "com.littlebigfun.addressable-importer": "https://github.com/brooklynpacket/unity-addressable-importer.git?path=Unity-Addressable-Importer#jc-improvements"
         }
     }
 ```
@@ -49,7 +49,7 @@ Notice: Unity Package Manager records the current commit to a lock entry of the 
 ```json
     "lock": {
       "com.littlebigfun.addressable-importer": {
-        "revision": "master",
+        "revision": "jc-improvements",
         "hash": "..."
       }
     }

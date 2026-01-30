@@ -1,4 +1,13 @@
-# [0.17.0](https://github.com/favoyang/unity-addressable-importer/compare/v0.16.2...v0.17.0) (2025-12-15)
+# [0.17.0.1](https://github.com/brooklynpacket/unity-addressable-importer/compare/master...jc-improvements) (2026-01-29)
+
+### Features
+* Adds FolderIncludeMode with default Exclude Folders to avoid wildcard matching folders while traversing a nested directory.
+
+### Bug Fixes
+* Updating README and Tests directory to enables Testables use.
+
+
+## [0.17.0](https://github.com/favoyang/unity-addressable-importer/compare/v0.16.2...v0.17.0) (2025-12-15)
 
 
 ### Features
