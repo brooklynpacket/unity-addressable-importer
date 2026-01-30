@@ -44,6 +44,45 @@ namespace UnityAddressableImporter.Tests
             Assert.IsTrue(rule.Match("Assets/Sprites/cat/cat.png"));
             Assert.IsFalse(rule.Match("Assets/Sprites/cat/cat.jpg"));
         }
+        
+        [Test]
+        public void MatchFolderTest()
+        {
+            string testPath = System.Guid.NewGuid().ToString();
+            Assert.IsFalse(System.IO.Directory.Exists(testPath));
+            try
+            {
+                System.IO.Directory.CreateDirectory(testPath);
+                string testFolderPath = System.IO.Path.Combine(testPath, "folder");
+                System.IO.Directory.CreateDirectory(testFolderPath);
+                string testFilePath = System.IO.Path.Combine(testPath, "file");
+                System.IO.File.Create(testFilePath);
+                Assert.IsTrue(System.IO.Directory.Exists(testPath));
+                Assert.IsTrue(System.IO.Directory.Exists(testFolderPath));
+                Assert.IsTrue(System.IO.File.Exists(testFilePath));
+
+                AddressableImportRule rule = new AddressableImportRule();
+                rule.matchType = AddressableImportRuleMatchType.Wildcard;
+                rule.path = $"{testPath}/*";
+
+                rule.allowFolders = FolderIncludeMode.ExcludeFolders;
+                Assert.IsFalse(rule.Match(testFolderPath));
+                Assert.IsTrue(rule.Match(testFilePath));
+
+                rule.allowFolders = FolderIncludeMode.IncludeFolders;
+                Assert.IsTrue(rule.Match(testFolderPath));
+                Assert.IsTrue(rule.Match(testFilePath));
+
+                rule.allowFolders = FolderIncludeMode.FoldersOnly;
+                Assert.IsTrue(rule.Match(testFolderPath));
+                Assert.IsFalse(rule.Match(testFilePath));
+            }
+            finally
+            {
+                if (System.IO.Directory.Exists(testPath))
+                    System.IO.Directory.Delete(testPath, true);
+            }
+        }
 
         [Test]
         public void ParseGroupReplacementTest()
