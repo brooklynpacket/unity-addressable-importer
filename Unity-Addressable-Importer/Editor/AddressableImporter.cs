@@ -82,30 +82,35 @@ public class AddressableImporter : AssetPostprocessor
 #else
         string prefabAssetPath = prefabStage != null ? prefabStage.prefabAssetPath : null;
 #endif
-        try
+        if (prefabStage == null && importedAssets.Length > 0 &&
+            (importedAssets[0] != prefabAssetPath || importedAssets.Length > 1))
         {
-            for (var i = 0; i < importedAssets.Length; i++)
+            try
             {
-                var importedAsset = importedAssets[i];
-
-                if (IsAssetIgnored(importedAsset))
-                    continue;
-
-                if (importSettingsList.ShowImportProgressBar && EditorUtility.DisplayCancelableProgressBar(
-                    "Processing addressable import settings", $"[{i}/{importedAssets.Length}] {importedAsset}",
-                    (float) i / importedAssets.Length))
-                    break;
-
-                foreach (var importSettings in hasRuleSettingsList)
+                for (var i = 0; i < importedAssets.Length; i++)
                 {
-                    if (prefabStage == null || prefabAssetPath != importedAsset) // Ignore current editing prefab asset.
-                        dirty |= ApplyImportRule(importedAsset, null, settings, importSettings);
+                    var importedAsset = importedAssets[i];
+
+                    if (IsAssetIgnored(importedAsset))
+                        continue;
+
+                    if (importSettingsList.ShowImportProgressBar && EditorUtility.DisplayCancelableProgressBar(
+                            "Processing addressable import settings", $"[{i}/{importedAssets.Length}] {importedAsset}",
+                            (float)i / importedAssets.Length))
+                        break;
+
+                    foreach (var importSettings in hasRuleSettingsList)
+                    {
+                        if (prefabStage == null ||
+                            prefabAssetPath != importedAsset) // Ignore current editing prefab asset.
+                            dirty |= ApplyImportRule(importedAsset, null, settings, importSettings);
+                    }
                 }
             }
-        }
-        finally
-        {
-            EditorUtility.ClearProgressBar();
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
         }
 
         for (var i = 0; i < movedAssets.Length; i++)
