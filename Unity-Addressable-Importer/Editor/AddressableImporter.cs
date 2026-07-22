@@ -288,6 +288,7 @@ public class AddressableImporter : AssetPostprocessor
                 foreach (var dynamicLabel in rule.dynamicLabels)
                 {
                     var label = rule.ParseReplacement(assetPath, dynamicLabel);
+                    label = label.Replace('/', '-').Replace('\\', '-');
                     entry.SetLabel(label, true, true);
                 }
             }
